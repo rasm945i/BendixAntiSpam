@@ -1,0 +1,7 @@
+name: BendixAntiSpam
+version: ${project.version}
+main: dk.rasmusbendix.antispam.AntiSpam
+api-version: 1.16
+authors: [rasm945i]
+description: Prevents repetitive messages and spam
+website: https://en.rasmusbendix.dk
