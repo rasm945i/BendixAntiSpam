@@ -29,7 +29,8 @@ public class GeneralModuleSettings {
 
         GeneralModuleSettings settings = new GeneralModuleSettings();
         if(!config.contains(section + ".general")) {
-            return null;
+            // Default, crappy config
+            return new GeneralModuleSettings(false, 0, 0);
         }
 
         String path = section + ".general.";
