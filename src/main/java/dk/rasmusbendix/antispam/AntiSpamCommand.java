@@ -6,11 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class ReloadCommand implements CommandExecutor {
+public class AntiSpamCommand implements CommandExecutor {
 
     private final AntiSpam plugin;
 
-    public ReloadCommand(AntiSpam plugin) {
+    public AntiSpamCommand(AntiSpam plugin) {
         this.plugin = plugin;
     }
 

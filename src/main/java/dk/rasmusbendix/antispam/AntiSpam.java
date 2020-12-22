@@ -28,6 +28,8 @@ public final class AntiSpam extends JavaPlugin {
         if(isModuleEnabled(DuplicateModule.IDENTIFIER))
             registerDuplicateModule();
 
+        getServer().getPluginCommand("antispam").setExecutor(new AntiSpamCommand(this));
+
     }
 
     public boolean isModuleEnabled(String path) {

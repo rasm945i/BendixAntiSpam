@@ -5,3 +5,7 @@ api-version: 1.16
 authors: [rasm945i]
 description: Prevents repetitive messages and spam
 website: https://en.rasmusbendix.dk
+commands:
+  antispam:
+    description: Base-command for the antispam plugin
+    aliases: [aspam]
