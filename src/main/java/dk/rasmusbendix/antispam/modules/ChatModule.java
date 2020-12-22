@@ -3,21 +3,20 @@ package dk.rasmusbendix.antispam.modules;
 import dk.rasmusbendix.antispam.Message;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.WordUtils;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 
 public abstract class ChatModule {
 
-    // How deep into the message history the module goes
-    // E.g. rather than checking only current message, it checks if X previous messages was flagged for the same thing
-    @Getter @Setter protected boolean checkingHistory = false;
-    // 3rd entry gets blocked
-    @Getter @Setter protected int acceptableHistory = 2;
-    // How deep into the history to look. If 10, only checks flags for 10 most recent
-    // messages and compares that amount to acceptableHistory
-    // E.g. if this is 20, the past 30 messages can contain 2 flagged messages, the 3rd gets blocked.
-    @Getter @Setter protected int depthIntoHistory = 20;
-    @Getter @Setter protected String violationMessage = "Please refrain from spamming.";
+    @Getter @Setter protected GeneralModuleSettings settings;
+    @Getter private final String name;
+
+    public ChatModule(String name) {
+        this.name = name;
+    }
+
 
     public abstract boolean allowChatEvent(Message message, ArrayList<Message> history);
 
@@ -52,7 +51,7 @@ public abstract class ChatModule {
 
     public boolean hasAcceptableHistory(Message message, ArrayList<Message> history) {
 
-        if(!checkingHistory) {
+        if(!settings.checkingHistory) {
             // If we don't check the history..
             // Check if this message has the flag for the current module
             // If it does NOT, return TRUE
@@ -62,11 +61,19 @@ public abstract class ChatModule {
             return !message.hasFlag(this);
         }
 
-        if(countFlags(this, depthIntoHistory, history) > acceptableHistory)
+        if(countFlags(this, settings.depthIntoHistory, history) > settings.acceptableHistory)
             return false;
 
         return true;
 
+    }
+
+    public void loadSettingsFromConfig(FileConfiguration config) {
+        setSettings(GeneralModuleSettings.fromConfigurationSection(config, getName()));
+    }
+
+    public String getFriendlyName() {
+        return WordUtils.capitalizeFully(getName().replace("-", " ").replace("_", " "));
     }
 
 }

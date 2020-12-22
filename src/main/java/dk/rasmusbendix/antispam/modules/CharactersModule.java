@@ -4,14 +4,26 @@ import dk.rasmusbendix.antispam.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@AllArgsConstructor
 public class CharactersModule extends ChatModule {
 
+    public static final String IDENTIFIER = "characters-module";
+
     @Getter @Setter private int maxRepetitiveChars; // Max amount of times a single character can be after itself
+
+    public CharactersModule(int maxRepetitiveChars) {
+        super(IDENTIFIER);
+        this.maxRepetitiveChars = maxRepetitiveChars;
+    }
+
+    public CharactersModule(FileConfiguration config) {
+        super(IDENTIFIER);
+        loadSettingsFromConfig(config);
+    }
 
     @Override
     public boolean allowChatEvent(Message message, ArrayList<Message> history) {
@@ -76,4 +88,10 @@ public class CharactersModule extends ChatModule {
 
     }
 
+    @Override
+    public void loadSettingsFromConfig(FileConfiguration config) {
+        super.loadSettingsFromConfig(config);
+        // Max 10 identical characters in a row, Weeeeeeeee
+        maxRepetitiveChars = config.getInt(getName() + ".max-repetitive-characters", 10);
+    }
 }

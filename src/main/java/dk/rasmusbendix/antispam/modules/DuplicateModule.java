@@ -1,14 +1,15 @@
 package dk.rasmusbendix.antispam.modules;
 
 import dk.rasmusbendix.antispam.Message;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 
-@AllArgsConstructor
 public class DuplicateModule extends ChatModule {
+
+    public static final String IDENTIFIER = "duplicate-module";
 
     // Max amount of similar/duplicate messages
     @Getter @Setter private int maxDuplicateMessages;
@@ -20,6 +21,17 @@ public class DuplicateModule extends ChatModule {
 
     public DuplicateModule(int maxDuplicateMessages) {
         this(maxDuplicateMessages, -1);
+    }
+
+    public DuplicateModule(int maxDuplicateMessages, int alteredDuplicateCheckLength) {
+        super(IDENTIFIER);
+        this.maxDuplicateMessages = maxDuplicateMessages;
+        this.alteredDuplicateCheckLength = alteredDuplicateCheckLength;
+    }
+
+    public DuplicateModule(FileConfiguration config) {
+        super(IDENTIFIER);
+        loadSettingsFromConfig(config);
     }
 
     @Override
@@ -52,4 +64,12 @@ public class DuplicateModule extends ChatModule {
         return duplicateCount;
     }
 
+    @Override
+    public void loadSettingsFromConfig(FileConfiguration config) {
+        super.loadSettingsFromConfig(config);
+        // Low history-value to reduce false-positives.
+        // Someone can reply "ok" to a message and have it be an answer to a second message too
+        maxDuplicateMessages = config.getInt(getName() + ".max-duplicate-messages", 1);
+        alteredDuplicateCheckLength = config.getInt(getName() + ".altered-duplicate-check-length", 20);
+    }
 }

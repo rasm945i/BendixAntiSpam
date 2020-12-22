@@ -1,0 +1,60 @@
+default-violation-message: "Please refrain from spamming."
+# Settings for the module that detects CAPS LOCK USAGE
+caps-module:
+  # Whether or not it is enabled
+  enabled: true
+  # Messages shorter than this is not checked. Allows for "FUCK" and "OK" outbursts
+  minimum-characters-to-check: 4
+  # The percentage of a message that can be caps-lock before it is flagged as caps
+  # Values higher than 0.5 allows for "tHiS kInD oF tExT"
+  # Put at 1.0 to only block "ONLY CAPS MESSAGES"
+  caps-threshold: 0.6
+  general:
+    # Whether or not the check should take previous messages into consideration
+    enable-history-check: true
+    # How many messages into the history it will look
+    history-depth: 4
+    # How many times this module could be "violated" before it blocks the message
+    # Eg. with 1, users can type "I CANNOT BELIEVE THIS", but if one of their
+    #   next (insert value of 'history-depth') messages
+    #   are "OH NOT IT HAPPENED AGAIN"-all caps, it will get blocked
+    max-matches-in-history: 1
+    # The message to send to a user if this module is violated
+    # Leave an empty string, "", to use the default-violation-message
+    violation-message: "Please do not use caps excessively"
+# Settings for the repetitive characters module
+# Blocks messages with a character being repeated a lot, like "Hi!!!!!!!!!!" or "Weeeeeeeeeeeeeeeeeeeeeeeeee"
+characters-module:
+    enabled: true
+    # Max amount of times a character can be repeated
+    # Keep in mind some words has 2 e's after each other, like keep
+    # Higher values allows for "Whaaaaa" and "Weeeeee"
+    # Set at 1 to block all messages :)
+    max-repetitive-characters: 10
+    general:
+      enable-history-check: true
+      history-depth: 10
+      max-matches-in-history: 2
+# Settings for the flooding module (fast messaging)
+flood-module:
+    enabled: true
+    # How long time a user must wait before sending a new message, in milliseconds
+    # arrow-up + send is usually shorter than half a second in my experience
+    # Typing a message and quickly correcting it afterwards is faster than one thinks
+    # I got flagged while testing it having this value at 800ms
+    minimum-ms-between-messages: 650
+    # This module does not yet support history checking, no general section
+# Settings for the duplicate messaging module
+duplicate-module:
+    enabled: true
+    # How many similar/identical messages one can send in succession after each other
+    max-duplicate-messages: 1
+    # If messages are longer than this, the module will slice the message and figure out if
+    # it has similarities with previous messages. Prevents spam where users add a ! at the end of each new message.
+    # -1 to disable
+    altered-duplicate-check-length: 20
+    general:
+      enable-history-check: true
+      # Keep in mind a user may type "ok" quite often
+      history-depth: 3
+      max-matches-in-history: 1

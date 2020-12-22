@@ -13,40 +13,45 @@ public final class AntiSpam extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         chatListener = new ChatListener(this);
+        if(isModuleEnabled(CapsModule.IDENTIFIER))
+            registerCapsModule();
 
-        /* Register Caps Module */
-        // 0.6 -> A bit more than half of the message can be caps
-        // Allow sponge-bob meme text
-        CapsModule capsModule = new CapsModule(3, 0.6);
-        capsModule.setCheckingHistory(true);
-        capsModule.setDepthIntoHistory(4);
-        capsModule.setAcceptableHistory(1);
+        if(isModuleEnabled(CharactersModule.IDENTIFIER))
+            registerCharactersModule();
+
+        if(isModuleEnabled(FloodModule.IDENTIFIER))
+            registerFloodModule();
+
+        if(isModuleEnabled(DuplicateModule.IDENTIFIER))
+            registerDuplicateModule();
+
+    }
+
+    public boolean isModuleEnabled(String path) {
+        return getConfig().getBoolean(path + ".enabled", false);
+    }
+
+    public void registerCapsModule() {
+        CapsModule capsModule = new CapsModule(getConfig());
         chatListener.registerChatModule(capsModule);
+    }
 
-
-        // Max 10 identical characters in a row, Weeeeeeeee
-        CharactersModule charsModule = new CharactersModule(10);
-        charsModule.setCheckingHistory(true);
-        charsModule.setDepthIntoHistory(10);
-        charsModule.setAcceptableHistory(2);
+    public void registerCharactersModule() {
+        CharactersModule charsModule = new CharactersModule(getConfig());
         chatListener.registerChatModule(charsModule);
+    }
 
-
-        // Sometimes one can send a quick follow-up message
-        // 650ms between each message
-        FloodModule floodModule = new FloodModule(650);
+    public void registerFloodModule() {
+        FloodModule floodModule = new FloodModule(getConfig());
         chatListener.registerChatModule(floodModule);
+    }
 
-
-        // Low history-value to reduce false-positives.
-        // Someone can reply "ok" to a message and have it be an answer to a second message too
-        DuplicateModule duplicateModule = new DuplicateModule(1, 20);
-        duplicateModule.setCheckingHistory(true);
-        duplicateModule.setDepthIntoHistory(3);
-        duplicateModule.setAcceptableHistory(1);
+    public void registerDuplicateModule() {
+        DuplicateModule duplicateModule = new DuplicateModule(getConfig());
         chatListener.registerChatModule(duplicateModule);
-
     }
 
     @Override

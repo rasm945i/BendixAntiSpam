@@ -19,7 +19,7 @@ public class ChatListener implements Listener {
     @Getter @Setter private long messageExpireTimeMs; // Time it takes for stored messages to expire
 
     private final HashMap<UUID, ArrayList<Message>> msgMap;
-    private final HashSet<ChatModule> chatModules;
+    @Getter private final HashSet<ChatModule> chatModules;
 
     public ChatListener(AntiSpam plugin) {
         messageExpireTimeMs = 30000; // Messages are removed from memory after 30 seconds
@@ -30,6 +30,14 @@ public class ChatListener implements Listener {
 
     public void registerChatModule(ChatModule module) {
         chatModules.add(module);
+    }
+
+    public ChatModule getModule(String name) {
+        for(ChatModule module : chatModules) {
+            if(module.getName().equalsIgnoreCase(name))
+                return module;
+        }
+        return null;
     }
 
     @EventHandler
@@ -54,7 +62,7 @@ public class ChatListener implements Listener {
 
         if(firstViolatedModule != null) {
             e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    firstViolatedModule.getViolationMessage()));
+                    firstViolatedModule.getSettings().getViolationMessage()));
             e.setCancelled(true);
             return;
         }
