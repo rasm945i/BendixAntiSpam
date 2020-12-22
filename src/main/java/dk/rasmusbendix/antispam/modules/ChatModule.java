@@ -17,12 +17,12 @@ public abstract class ChatModule {
 
     @FunctionalInterface
     public interface ReloadMethod {
-        void onReload(ChatModule module, FileConfiguration config);
+        void onReload(ChatModule module);
     }
 
     public ChatModule(String name) {
-        this(name, (module, config) -> {});
-        this.setReloadMethod(((module, config) -> loadSettingsFromConfig(config)));
+        this(name, (module) -> {});
+        this.setReloadMethod(((module) -> loadSettingsFromConfig(getAssociatedConfig())));
     }
 
     public ChatModule(String name, ReloadMethod reloadMethod) {

@@ -15,12 +15,16 @@ public final class AntiSpam extends JavaPlugin {
         saveDefaultConfig();
         lastConfigReload = System.currentTimeMillis();
 
-        reloadMethod = (module, config) -> {
+        reloadMethod = (module) -> {
             // Only reload the config once a second at max
             // Multiple modules use the same config
-            if(lastConfigReload + 1000 < System.currentTimeMillis())
+            if(lastConfigReload + 1000 < System.currentTimeMillis()) {
+                getLogger().info("Reloaded config.");
                 reloadConfig();
-            module.loadSettingsFromConfig(config);
+                lastConfigReload = System.currentTimeMillis();
+            }
+            // Make sure to provide the new, reloaded, instance of the config!
+            module.loadSettingsFromConfig(getConfig());
         };
 
         chatListener = new ChatListener(this);

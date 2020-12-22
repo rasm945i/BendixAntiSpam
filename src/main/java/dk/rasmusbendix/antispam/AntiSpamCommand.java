@@ -36,7 +36,7 @@ public class AntiSpamCommand implements CommandExecutor {
                 for (ChatModule module : AntiSpam.getChatListener().getChatModules()) {
 
                     if(module.getReloadMethod() != null) {
-                        module.getReloadMethod().onReload(module, module.getAssociatedConfig());
+                        module.getReloadMethod().onReload(module);
                         reloads++;
                     }
 
