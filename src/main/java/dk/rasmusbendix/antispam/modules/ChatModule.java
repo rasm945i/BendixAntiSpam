@@ -12,9 +12,22 @@ public abstract class ChatModule {
 
     @Getter @Setter protected GeneralModuleSettings settings;
     @Getter private final String name;
+    @Getter @Setter protected FileConfiguration associatedConfig;
+    @Getter @Setter ReloadMethod reloadMethod;
+
+    @FunctionalInterface
+    public interface ReloadMethod {
+        void onReload(ChatModule module, FileConfiguration config);
+    }
 
     public ChatModule(String name) {
+        this(name, (module, config) -> {});
+        this.setReloadMethod(((module, config) -> loadSettingsFromConfig(config)));
+    }
+
+    public ChatModule(String name, ReloadMethod reloadMethod) {
         this.name = name;
+        this.reloadMethod = reloadMethod;
     }
 
 
@@ -69,6 +82,7 @@ public abstract class ChatModule {
     }
 
     public void loadSettingsFromConfig(FileConfiguration config) {
+        this.associatedConfig = config;
         setSettings(GeneralModuleSettings.fromConfigurationSection(config, getName()));
     }
 

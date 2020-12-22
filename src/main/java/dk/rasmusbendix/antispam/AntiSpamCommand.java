@@ -5,6 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
 
 public class AntiSpamCommand implements CommandExecutor {
 
@@ -28,13 +31,15 @@ public class AntiSpamCommand implements CommandExecutor {
 
             if(sender.hasPermission("antispam.reload")) {
 
-                plugin.reloadConfig();
-
                 int reloads = 0;
                 // Enabling and disabling modules requires a restart
                 for (ChatModule module : AntiSpam.getChatListener().getChatModules()) {
-                    module.loadSettingsFromConfig(plugin.getConfig());
-                    reloads++;
+
+                    if(module.getReloadMethod() != null) {
+                        module.getReloadMethod().onReload(module, module.getAssociatedConfig());
+                        reloads++;
+                    }
+
                 }
 
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
