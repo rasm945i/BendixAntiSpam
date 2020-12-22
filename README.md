@@ -4,6 +4,14 @@ A Minecraft Plugin with various methods of detect spam such as duplicate message
 ## Made with developers in mind
 The whole plugin is based on modules, which allows developers to easily add extra functionality if they wish.
 
+## Commands and permissions
+antispam.info
+/antispam - Displays information on loaded modules
+
+antispam.reload
+/antispam reload - Reloads all modules.
+Note that enabling or disabling modules must be done directly from the config file and requires a restart.
+
 ## Module example
 A simple module that would block every message longer than X characters would look something like this:
 ```java
