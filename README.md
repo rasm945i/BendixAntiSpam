@@ -17,7 +17,7 @@ Prevents users sending a message with the same character many times in a row, li
 Prevents a user from sending messages too fast
 
 ## Very configurable
-Each module provided by default can be configured, disabled and tweaked to your needs.
+Each module provided by default can be configured, disabled and tweaked to your needs.  
 Third-party modules will have to implement that by themselves, but I have made it as easy as I can for them.
 
 ## Commands and permissions
