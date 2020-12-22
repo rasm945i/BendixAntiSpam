@@ -57,19 +57,24 @@ public class AntiSpamCommand implements CommandExecutor {
         for(ChatModule module : AntiSpam.getChatListener().getChatModules()) {
             builder.append("\n\n&7 - - &e");
             builder.append(module.getFriendlyName());
-            builder.append("&7 - -");
+            builder.append("&7 - -&r");
 
             builder.append("\n&7History-check: &e");
             builder.append(module.getSettings().isCheckingHistory());
+            // Reset color so the console don't look weird on new lines
+            builder.append("&r");
 
             builder.append("\n&7History depth: &e");
             builder.append(module.getSettings().getDepthIntoHistory());
+            builder.append("&r");
 
             builder.append("\n&7Max acceptable history matches: &e");
             builder.append(module.getSettings().getAcceptableHistory());
+            builder.append("&r");
 
             builder.append("\n&7Violation message: &e");
             builder.append(module.getSettings().getViolationMessage());
+            builder.append("&r");
 
         }
 
