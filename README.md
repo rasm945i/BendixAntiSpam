@@ -4,6 +4,22 @@ A Minecraft Plugin with various methods of detect spam such as duplicate message
 ## Made with developers in mind
 The whole plugin is based on modules, which allows developers to easily add extra functionality if they wish.
 
+## Default modules
+Note that the default configuration is very forgiving and is meant to only punish the worst offenders.  
+That way, regular players wont stumble upon the anti-spam when doing a single outburst.
+#### Caps Module
+Prevents the use of excessive caps-lock.
+#### Duplication Module
+Prevents duplicate and similar messages
+#### Character Module
+Prevents users sending a message with the same character many times in a row, like "Hiiiiiiii"
+#### Flood Module
+Prevents a user from sending messages too fast
+
+## Very configurable
+Each module provided by default can be configured, disabled and tweaked to your needs.
+Third-party modules will have to implement that by themselves, but I have made it as easy as I can for them.
+
 ## Commands and permissions
 antispam.info  
 /antispam - Displays information on loaded modules
