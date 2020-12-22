@@ -1,18 +1,28 @@
 package dk.rasmusbendix.antispam.modules;
 
 import dk.rasmusbendix.antispam.Message;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 
-@AllArgsConstructor
 public class SymbolsModule extends ChatModule {
 
     // NOTE: Just an idea, not finished
+    public static final String IDENTIFIER = "symbols-module";
 
     @Getter @Setter private int maxRepetitiveSymbols; // Max amount of times a character that is not a-zA-Z0-9 can be present in a row
+
+    public SymbolsModule(int maxRepetitiveSymbols) {
+        super(IDENTIFIER);
+        this.maxRepetitiveSymbols = maxRepetitiveSymbols;
+    }
+
+    public SymbolsModule(FileConfiguration config) {
+        super(IDENTIFIER);
+        loadSettingsFromConfig(config);
+    }
 
     @Override
     public boolean allowChatEvent(Message message, ArrayList<Message> history) {
@@ -40,4 +50,9 @@ public class SymbolsModule extends ChatModule {
 
     }
 
+    @Override
+    public void loadSettingsFromConfig(FileConfiguration config) {
+        super.loadSettingsFromConfig(config);
+        maxRepetitiveSymbols = config.getInt(getName() + ".max-repetitive-symbols", 4);
+    }
 }
