@@ -1,4 +1,4 @@
-# BendixAntiSpan
+# BendixAntiSpam
 A Minecraft Plugin with various methods of detect spam such as duplicate messages, repetitive characters and flooding
 
 ## Made with developers in mind
