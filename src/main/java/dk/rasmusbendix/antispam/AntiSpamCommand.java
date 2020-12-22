@@ -54,17 +54,19 @@ public class AntiSpamCommand implements CommandExecutor {
             builder.append(module.getFriendlyName());
             builder.append("&7 - -");
 
-            builder.append("\n&7History-check: &e");
-            builder.append(module.getSettings().isCheckingHistory());
+            if(module.getSettings() != null) {
+                builder.append("\n&7History-check: &e");
+                builder.append(module.getSettings().isCheckingHistory());
 
-            builder.append("\n&7History depth: &e");
-            builder.append(module.getSettings().getDepthIntoHistory());
+                builder.append("\n&7History depth: &e");
+                builder.append(module.getSettings().getDepthIntoHistory());
 
-            builder.append("\n&7Max acceptable history matches: &e");
-            builder.append(module.getSettings().getAcceptableHistory());
+                builder.append("\n&7Max acceptable history matches: &e");
+                builder.append(module.getSettings().getAcceptableHistory());
 
-            builder.append("\n&7Violation message: &e");
-            builder.append(module.getSettings().getViolationMessage());
+                builder.append("\n&7Violation message: &e");
+                builder.append(module.getSettings().getViolationMessage());
+            }
         }
 
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
