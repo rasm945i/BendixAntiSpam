@@ -72,3 +72,15 @@ AntiSpam.getChatListener().registerModule(blockModule);
 ```
 
 By default, the `/antispam reload` command does not reload third-party modules.
+To have your module reload along with the built-in modules when the reload command is run, you must use the ReloadMethod interface.
+If no ReloadMethod is defined, it will simply load the values from the config again, without the config having gotten any new values.
+This interface is in place so you can reload your configuration file when it is neccessary.
+```java
+ChatModule.ReloadMethod reloadMethod = reloadMethod = (module, config) -> {
+            // It is recommended to make a system that only reloads the given config
+            // max once a second, unless each module has its own dedicated config
+            yourPlugin.reloadConfig(); // Assuming you use the default config supplied from the JavaPlugin class
+            module.loadSettingsFromConfig(config);
+        };
+blockModule.setReloadMethod(reloadMethod);
+```
