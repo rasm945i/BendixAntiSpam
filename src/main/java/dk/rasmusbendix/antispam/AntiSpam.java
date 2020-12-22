@@ -28,6 +28,7 @@ public final class AntiSpam extends JavaPlugin {
         if(isModuleEnabled(DuplicateModule.IDENTIFIER))
             registerDuplicateModule();
 
+        //noinspection ConstantConditions
         getServer().getPluginCommand("antispam").setExecutor(new AntiSpamCommand(this));
 
     }
