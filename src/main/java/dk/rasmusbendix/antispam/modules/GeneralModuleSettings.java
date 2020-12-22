@@ -27,13 +27,13 @@ public class GeneralModuleSettings {
 
     public static GeneralModuleSettings fromConfigurationSection(FileConfiguration config, String section) {
 
-        GeneralModuleSettings settings = new GeneralModuleSettings();
         if(!config.contains(section + ".general")) {
             // Default, crappy config
             return new GeneralModuleSettings(false, 0, 0);
         }
 
         String path = section + ".general.";
+        GeneralModuleSettings settings = new GeneralModuleSettings();
 
         settings.setCheckingHistory(config.getBoolean(path + "enable-history-check", false));
         settings.setDepthIntoHistory(config.getInt(path + "history-depth", 4));
